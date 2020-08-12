@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">DasrialiSainung_152214</string>
+    <string name="save">Save</string>
+    <string name="clear">Clear</string>
+    <string name="nama">Nama</string>
+    <string name="nim">Nim</string>
+    <string name="email">Email</string>
+    <string name="telepon">Telepon</string>
+    <string name="hobi">Hobby</string>
+    <string name="laki">Laki - Laki</string>
+    <string name="puan">Perempuan</string>
+    <string name="makan">Makan</string>
+    <string name="travel">Travelling</string>
+    <string name="membaca">Membaca</string>
 </resources>
