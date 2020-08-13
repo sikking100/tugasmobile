@@ -16,21 +16,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Username"
-            android:inputType="textPersonName" />
+            android:hint="@string/username"
+            android:inputType="textPersonName"
+            android:importantForAutofill="no" />
 
         <EditText
             android:id="@+id/txt_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword" />
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:importantForAutofill="no" />
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login" />
+            android:text="@string/login" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">RahmatFauzi_152219</string>
+    <string name="daftar">Form Pendaftaran</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="nim">NIM</string>
+    <string name="nama">Nama Mahasiswa</string>
+    <string name="email">Email</string>
+    <string name="telepon">Telepon</string>
+    <string name="pria">Laki - Laki</string>
+    <string name="puan">Perempuan</string>
+    <string name="makan">Makan</string>
+    <string name="travelling">Travelling</string>
+    <string name="membaca">Membaca</string>
+    <string name="save">SAVE</string>
+    <string name="clear">CLEAR</string>
+    <string name="hobby">Hobby</string>
 </resources>
