@@ -11,13 +11,19 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
 public class FrmDaftar extends AppCompatActivity {
 
     EditText txtNim, txtNama, txtEmail, txtTelp;
     CheckBox cbMakan, cbTrav, cbBaca;
     RadioGroup radioGroup;
     RadioButton radioButton;
-    Button btnSave, btnClear;
+    Button btnSave, btnClear, btnView;
     String hobi = "";
 
     @Override
@@ -38,6 +44,7 @@ public class FrmDaftar extends AppCompatActivity {
 
         btnSave = (Button) findViewById(R.id.btn_save);
         btnClear = (Button) findViewById(R.id.btn_clear);
+        btnView = (Button) findViewById(R.id.btn_view);
 
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +69,39 @@ public class FrmDaftar extends AppCompatActivity {
                 int selectedId = radioGroup.getCheckedRadioButtonId();
                 radioButton = (RadioButton) findViewById(selectedId);
                 String tampilan = "NIM : " + txtNim.getText().toString() + "\nNama : " + txtNama.getText().toString() + "\nTelepon : " + txtTelp.getText().toString() + "\nEmail : " + txtEmail.getText().toString() + "\nJenis Kelamin : " + radioButton.getText().toString() + "\nHobby : " + hobi;
-                Toast.makeText(getBaseContext(), tampilan, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getBaseContext(), tampilan, Toast.LENGTH_LONG).show();
+                try {
+                    FileOutputStream fileOutputStream = openFileOutput("RahmatFauzi_152219.txt", MODE_PRIVATE);
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+                    outputStreamWriter.write(tampilan);
+                    outputStreamWriter.flush();
+                    outputStreamWriter.close();
+                    Toast.makeText(getBaseContext(), "Sukses menyimpan", Toast.LENGTH_LONG).show();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                    Toast.makeText(getBaseContext(), "Gagal menyimpan", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        btnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    FileInputStream fileInputStream = openFileInput("RahmatFauzi_152219.txt");
+                    InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+                    char[] inputBuffer = new char[100];
+                    String s = "";
+                    int charRead;
+                    while ((charRead = inputStreamReader.read(inputBuffer)) > 0) {
+                        String readString = String.copyValueOf(inputBuffer,0, charRead);
+                        s+=readString;
+                        inputBuffer = new char[100];
+                    }
+                    Toast.makeText(getBaseContext(), s, Toast.LENGTH_LONG).show();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
             }
         });
 
