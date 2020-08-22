@@ -2,6 +2,9 @@ package com.example.rahmatfauzi_152219;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +28,7 @@ public class FrmDaftar extends AppCompatActivity {
     RadioButton radioButton;
     Button btnSave, btnClear, btnView;
     String hobi = "";
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,8 @@ public class FrmDaftar extends AppCompatActivity {
         btnSave = (Button) findViewById(R.id.btn_save);
         btnClear = (Button) findViewById(R.id.btn_clear);
         btnView = (Button) findViewById(R.id.btn_view);
+        db = openOrCreateDatabase("siaka", Context.MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS tbl_mhs(nim integer, nama varchar, email varchar, telp varchar, jenkel varchar, hobi varchar);");
 
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,14 +76,15 @@ public class FrmDaftar extends AppCompatActivity {
                 radioButton = (RadioButton) findViewById(selectedId);
                 String tampilan = "NIM : " + txtNim.getText().toString() + "\nNama : " + txtNama.getText().toString() + "\nTelepon : " + txtTelp.getText().toString() + "\nEmail : " + txtEmail.getText().toString() + "\nJenis Kelamin : " + radioButton.getText().toString() + "\nHobby : " + hobi;
 //                Toast.makeText(getBaseContext(), tampilan, Toast.LENGTH_LONG).show();
+                Boolean cek = txtNim.getText().toString().equalsIgnoreCase("") || txtNama.getText().toString().equalsIgnoreCase("") || txtEmail.getText().toString().equalsIgnoreCase("") || txtTelp.getText().toString().equalsIgnoreCase("");
                 try {
-                    FileOutputStream fileOutputStream = openFileOutput("RahmatFauzi_152219.txt", MODE_PRIVATE);
-                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-                    outputStreamWriter.write(tampilan);
-                    outputStreamWriter.flush();
-                    outputStreamWriter.close();
-                    Toast.makeText(getBaseContext(), "Sukses menyimpan", Toast.LENGTH_LONG).show();
-                } catch (IOException ioe) {
+                    if (cek) {
+                        Toast.makeText(getBaseContext(), "Masih Kosong!", Toast.LENGTH_LONG).show();
+                    } else {
+                        db.execSQL("INSERT INTO tbl_mhs VALUES ('"+txtNim.getText() + "','"+txtNama.getText() + "','"+txtEmail.getText() + "','"+txtTelp.getText() + "', '"+radioButton.getText().toString()+"','"+hobi+"');");
+                        Toast.makeText(getBaseContext(),"Berhasil Tersimpan", Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception ioe) {
                     ioe.printStackTrace();
                     Toast.makeText(getBaseContext(), "Gagal menyimpan", Toast.LENGTH_LONG).show();
                 }
@@ -88,18 +95,13 @@ public class FrmDaftar extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    FileInputStream fileInputStream = openFileInput("RahmatFauzi_152219.txt");
-                    InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-                    char[] inputBuffer = new char[100];
-                    String s = "";
-                    int charRead;
-                    while ((charRead = inputStreamReader.read(inputBuffer)) > 0) {
-                        String readString = String.copyValueOf(inputBuffer,0, charRead);
-                        s+=readString;
-                        inputBuffer = new char[100];
+                    Cursor c = db.rawQuery("SELECT * FROM tbl_mhs WHERE nama = '"+txtNama.getText()+"'", null);
+                    if (c.moveToFirst()) {
+                        Toast.makeText(getApplicationContext(), "NIM: " + c.getString(0) + "\nNama: " + c.getString(1) + "\nEmail: " + c.getString(2) + "\nTelp: " + c.getString(3) + "\nJenis Kelamin: " + c.getString(4) + "\nHobi: " + c.getString(5), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Tidak ditemukan!", Toast.LENGTH_LONG).show();
                     }
-                    Toast.makeText(getBaseContext(), s, Toast.LENGTH_LONG).show();
-                } catch (IOException ioe) {
+                } catch (Exception ioe) {
                     ioe.printStackTrace();
                 }
             }
