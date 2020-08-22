@@ -101,6 +101,7 @@
         </LinearLayout>
 
         <TableLayout
+            android:id="@+id/buttongroup"
             android:layout_below="@id/linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -129,6 +130,13 @@
             </TableRow>
 
         </TableLayout>
+
+        <Button
+            android:layout_below="@id/buttongroup"
+            android:id="@+id/btn_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/view_data" />
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
